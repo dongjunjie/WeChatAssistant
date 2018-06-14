@@ -1,27 +1,20 @@
 # WeChatForRevocation<br><br>
 基于[itchat](https://github.com/littlecodersh/ItChat.git)  
-贡献者：[XAS-712](https://github.com/XAS-712)、 [SLiNv](https://github.com/SLiNv)、 [linwencai](https://github.com/linwencai)  
-欢迎好的idea和pull request  
+
 
 -----
 ### 环境相关
-Python版本：python3.5  
+Python版本：python2.7
 
-### Linux环境配置  
-`pip install -r requirements.txt`  
+### 安装方法
+* git clone https://github.com/dongjunjie/WeChatAssistant.git
+* cd WeChatAssistant 
+* pip install -r requirements.txt
+* python main.py -t
+* 然后扫描二维码即可登录 
 
-### Windows用户  
-
-可以直接下载已打包的程序，可以直接下载已打包的程序，[点击这里](https://github.com/ZKeeer/WeChatForRevocation/releases)。  
-下载最新版替换原先的程序时，只需要替换exe文件，其他的不需要移动或者修改。  
 
 --------
-#######**NEW**##################################################################
-
-如果想要***传输中文文件名的文件***，把fields.py复制到requests包，requests/packages/urllib3/路径下，  
-替换原来的fields.py文件。  
-[fields.py(py2)](https://github.com/ZKeeer/WeChatAssistant/tree/master/fields/fields-py2)  /  [fileds.py(py3)](https://github.com/ZKeeer/WeChatAssistant/tree/master/fields/fields-py3)  
-
 #############################################################################
 
 

@@ -1,3 +1,5 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
 import os
 import sqlite3
 import time
@@ -40,7 +42,7 @@ class MsgAutoReply:
             elif result['NickName']:  # 消息发送人昵称
                 msg_from = result['NickName']  # 消息发送人昵称
             else:
-                msg_from = r"读取好友失败"
+                msg_from = ur"读取好友失败"
         else:
             msg_from = msg.get('ActualNickName', "")
 
@@ -48,8 +50,8 @@ class MsgAutoReply:
         for k in self.reply_rule.keys():
             try:
                 if k in msg['Content'] or k in msg['Text'] or k in msg_from:
-                    msg_reply = self.reply_rule.get(k, "我收到消息了，待会儿回复")
-                    msg_reply += " [来自ZKeeer微信助手]"
+                    msg_reply = self.reply_rule.get(k, u"我收到消息了，待会儿回复")
+                    msg_reply += u" [来自ZKeeer微信助手]"
                     time.sleep(0.5)
                     # 发送给好友自动回复内容
                     itchat.send(msg_reply, toUserName=msg['FromUserName'])
@@ -85,10 +87,10 @@ class MsgAutoReply:
                 db_connect.execute(
                     """INSERT INTO {} VALUES ('{}', '{}');""".format(self.table, keyword, content))
             db_connect.commit()
-            return "添加自动回复 {}:{} 成功".format(keyword, content)
+            return u"添加自动回复 {}:{} 成功".format(keyword, content)
         except BaseException as e:
             db_connect.rollback()
-            return "添加失败，请重试"
+            return u"添加失败，请重试"
         finally:
             db_cursor.close()
             db_connect.close()
@@ -100,12 +102,12 @@ class MsgAutoReply:
             if db_cursor.execute("""SELECT * FROM {} WHERE KEYWORD = '{}';""".format(self.table, kw)).fetchall():
                 db_connect.execute("""DELETE FROM {} WHERE KEYWORD = '{}';""".format(self.table, kw))
                 db_connect.commit()
-                return "删除成功"
+                return u"删除成功"
             else:
-                return "关键词不存在，请重试"
+                return u"关键词不存在，请重试"
         except BaseException as e:
             db_connect.rollback()
-            return "删除失败，请重试"
+            return u"删除失败，请重试"
         finally:
             db_cursor.close()
             db_connect.close()
@@ -115,38 +117,38 @@ class MsgAutoReply:
         try:
             db_connect.execute("""DELETE FROM {};""".format(self.table))
             db_connect.commit()
-            return "清空自动回复成功"
+            return u"清空自动回复成功"
         except BaseException as e:
-            return "清空自动回复失败，请重试"
+            return u"清空自动回复失败，请重试"
         finally:
             db_connect.close()
 
     def OpenAutoReply(self):
         if os.path.exists("openautoreply"):
-            return "自动回复已经打开"
+            return u"自动回复已经打开"
         else:
             if not os.path.exists("closeautoreply"):
                 with open("closeautoreply", 'w')as fw:
                     pass
             os.rename("closeautoreply", "openautoreply")
-            return "自动回复已经打开"
+            return u"自动回复已经打开"
 
     def CloseAutoReply(self):
         if os.path.exists("closeautoreply"):
-            return "自动回复已经关闭"
+            return u"自动回复已经关闭"
         else:
             if not os.path.exists("openautoreply"):
                 with open("openautoreply", 'w')as fw:
                     pass
             os.rename("openautoreply", "closeautoreply")
-            return "自动回复已经关闭"
+            return u"自动回复已经关闭"
 
     def ShowRule(self):
         tmp_dict = self.GetRule()
         reslut = ""
         for k, v in zip(tmp_dict.keys(), tmp_dict.values()):
-            reslut += "{}:{}、\n".format(k, v)
+            reslut += u"{}:{}、\n".format(k, v)
         if reslut:
             return reslut
         else:
-            return "暂无自动回复内容"
+            return u"暂无自动回复内容"

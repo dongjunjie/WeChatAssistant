@@ -1,3 +1,5 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
 import os
 import random
 import re
@@ -29,9 +31,9 @@ class Execution:
         # "%s%s%s%s%s关键词" % ("="*4, "Command Message", "="*4, "\n\n", action)
 
         command = message['Text']
-        msg_send = "{0}{1}{0}{2}".format("=" * 8, "助手消息", "\n\n")
-        if re.match(r"^查看文件\[.*\]", command):
-            filename = re.search(r"^查看文件\[(.*?)\]$", command).group(1)
+        msg_send = u"机器人自动回复:\n\n"
+        if re.match(ur"^查看文件\[.*\]", command):
+            filename = re.search(ur"^查看文件\[(.*?)\]$", command).group(1)
             result = self.ShowFile(filename)
             if result == True:
                 pass
@@ -39,78 +41,79 @@ class Execution:
                 msg_send += result
                 itchat.send(msg_send, toUserName='filehelper')
 
-        elif re.match(r"^删除文件\[.*\]", command):
-            filename = re.search(r"^删除文件\[(.*?)\]$", command).group(1)
+        elif re.match(ur"^删除文件\[.*\]", command):
+            filename = re.search(ur"^删除文件\[(.*?)\]$", command).group(1)
             msg_send += self.DeleteFile(filename)
             itchat.send(msg_send, toUserName='filehelper')
 
-        elif re.match(r"^添加关键词\[.*\]", command):
-            keyword = re.search(r"^添加关键词\[(.*?)\]", command).group(1)
+        elif re.match(ur"^添加关键词\[.*\]", command):
+            keyword = re.search(ur"^添加关键词\[(.*?)\]", command).group(1)
             msg_send += self.keyword.AddKeyword(keyword)
             itchat.send(msg_send, toUserName='filehelper')
 
-        elif re.match(r"^删除关键词\[.*\]", command):
-            keyword = re.search(r"^删除关键词\[(.*?)\]", command).group(1)
+        elif re.match(ur"^删除关键词\[.*\]", command):
+            keyword = re.search(ur"^删除关键词\[(.*?)\]", command).group(1)
             msg_send += self.keyword.DeleteKeyword(keyword)
             itchat.send(msg_send, toUserName='filehelper')
 
-        elif re.match(r"^撤回附件列表$", command):
+        elif re.match(ur"^撤回附件列表$", command):
             self.ReturnAttachmentList()
 
-        elif re.match(r"^清空附件列表$", command):
+        elif re.match(ur"^清空附件列表$", command):
             self.ClearAttachmentList()
 
-        elif re.match("^查看关键词$", command):
+        elif re.match(u"^查看关键词$", command):
             msg_send += self.keyword.ShowKeyword()
             itchat.send(msg_send, toUserName='filehelper')
 
-        elif re.match("^清空关键词$", command):
+        elif re.match(u"^清空关键词$", command):
             msg_send += self.keyword.ClearKeyword()
             itchat.send(msg_send, toUserName='filehelper')
 
-        elif re.match("^查看签到口令$", command):
+        elif re.match(u"^查看签到口令$", command):
             msg_send += self.snin.ShowComd()
             itchat.send(msg_send, toUserName='filehelper')
 
-        elif re.match("^清空签到口令$", command):
+        elif re.match(u"^清空签到口令$", command):
             msg_send += self.snin.ClearComd()
             itchat.send(msg_send, toUserName='filehelper')
 
-        elif re.match("^添加签到口令\[.*?\]$", command):
-            mps, cmd = re.search("^添加签到口令\[(.*?):(.*?)\]$", command).group(1, 2)
+        elif re.match(u"^添加签到口令\[.*?\]$", command):
+            mps, cmd = re.search(u"^添加签到口令\[(.*?):(.*?)\]$", command).group(1, 2)
             self.snin.AddComd(mps, cmd)
-            msg_send += "添加签到口令[{}:{}]成功".format(mps, cmd)
+            msg_send += u"添加签到口令[{}:{}]成功".format(mps, cmd)
             itchat.send(msg_send, toUserName='filehelper')
 
-        elif re.match("^删除签到口令\[.*?\]$", command):
-            mps = re.search("^删除签到口令\[(.*?)\]$", command).group(1)
+        elif re.match(u"^删除签到口令\[.*?\]$", command):
+            mps = re.search(u"^删除签到口令\[(.*?)\]$", command).group(1)
             msg_send += self.snin.DeleteComd(mps)
             itchat.send(msg_send, toUserName='filehelper')
 
-        elif re.match("^截图$", command):
+        elif re.match(u"^截图$", command):
             screenshoot.SC()
-        elif re.match("^添加自动回复\[.*?\]$", command):
-            keyword, content = re.search("^添加自动回复\[(.*?):(.*?)\]$", command).group(1, 2)
+        elif re.match(u"^添加自动回复\[.*?\]$", command):
+            keyword, content = re.search(u"^添加自动回复\[(.*?):(.*?)\]$", command).group(1, 2)
             msg_send += self.reply.AddRule(keyword, content)
             itchat.send(msg_send, toUserName="filehelper")
-        elif re.match("^删除自动回复\[.*\]$", command):
-            keyword = re.search("^删除自动回复\[(.*?)\]$", command).group(1)
+        elif re.match(u"^删除自动回复\[.*\]$", command):
+            keyword = re.search(u"^删除自动回复\[(.*?)\]$", command).group(1)
             msg_send += self.reply.DeleteRule(keyword)
             itchat.send(msg_send, toUserName='filehelper')
-        elif re.match("^清空自动回复$", command):
+        elif re.match(u"^清空自动回复$", command):
             msg_send += self.reply.ClearRule()
             itchat.send(msg_send, toUserName='filehelper')
-        elif re.match("^查看自动回复$", command):
+        elif re.match(u"^查看自动回复$", command):
             msg_send += self.reply.ShowRule()
             itchat.send(msg_send, toUserName='filehelper')
-        elif re.match("^关闭自动回复$", command):
+        elif re.match(u"^关闭自动回复$", command):
             msg_send += self.reply.CloseAutoReply()
+            print msg_send
             itchat.send(msg_send, toUserName='filehelper')
-        elif re.match("^打开自动回复$", command):
+        elif re.match(u"^打开自动回复$", command):
             msg_send += self.reply.OpenAutoReply()
             itchat.send(msg_send, toUserName='filehelper')
-        elif re.match("^拍照$", command):
-            msg_send+="功能未开发，敬请期待"
+        elif re.match(u"^拍照$", command):
+            msg_send += u"功能未开发，敬请期待"
             itchat.send(msg_send, toUserName='filehelper')
             """
            img_name = TakePhoto()
@@ -121,8 +124,8 @@ class Execution:
                 itchat.send(msg_send, toUserName='filehelper')
             """
 
-        elif re.match("^拍动图\d{0,2}$", command):
-            msg_send+="功能未开发，敬请期待"
+        elif re.match(u"^拍动图\d{0,2}$", command):
+            msg_send += u"功能未开发，敬请期待"
             itchat.send(msg_send, toUserName='filehelper')
             """
             seconds = re.findall("^拍动图(\d+)", command)
@@ -141,37 +144,37 @@ class Execution:
                 msg_send += "拍照失败，请重试"
                 itchat.send(msg_send, toUserName='filehelper')
             """
-        elif re.match("^今天吃什么$", command):
+        elif re.match(u"^今天吃什么$", command):
             today_choice = random.choice(config.today_menu)
             emotion = random.choice(config.emoticons)
-            msg_send += "今天就吃 {} 吧{}{}".format(today_choice, '\n', emotion)
+            msg_send += u"今天就吃 {} 吧{}{}".format(today_choice, '\n', emotion)
             itchat.send(msg_send, toUserName='filehelper')
-        elif re.match("^退出程序$", command):
-            itchat.send("退出程序成功", toUserName='filehelper')
+        elif re.match(u"^退出程序$", command):
+            itchat.send(u"退出程序成功", toUserName='filehelper')
             itchat.logout()
             os._exit(0)
         else:
-            itchat.send(r"暂时支持以下指令：{1}"
-                        r"查看/删除文件[文件名]{0}e.g.查看[123345234.mp3]{1}"
-                        r"撤回附件列表(查看都有哪些保存在电脑中的已撤回附件){1}"
-                        r"清空附件列表(清空已经保存在电脑中的附件){1}"
-                        r"添加关键词[关键词]{0}e.g.设置关键词[在不在]{1}"
-                        r"删除关键词[关键词]{0}e.g.删除关键词[在不在]{1}"
-                        r"清空关键词  清空已经设置的所有关键词{1}"
-                        r"查看关键词  查看目前设置的关键词{1}"
-                        r"添加签到口令[公众号:签到口令]{0}e.g.添加签到口令[招商银行信用卡:签到]{1}"
-                        r"删除签到口令[公众号]{0}e.g.删除签到口令[招商银行信用卡]{1}"
-                        r"查看签到口令  查看已经存在的公众和和对应的签到口令{1}"
-                        r"清空签到口令  清空所有签到口令{1}"
-                        r"截图 截取运行本程序的机器当前界面{1}"
-                        r"添加自动回复[针对的关键词:回复内容]{0}e.g.添加自动回复[在不在:我现在有事情，待会儿回复你]{1}"
-                        r"删除自动回复[针对的关键词]{0}e.g.删除自动回复[在不在]{1}"
-                        r"清空自动回复{1}"
-                        r"关闭自动回复{1}"
-                        r"打开自动回复{1}"
-                        r"今天吃什么{1}"
-                        r"退出程序{1}"
-                        r"其他指令暂不支持，请期待最新版本。".format("\n", "\n\n"),
+            itchat.send(ur"暂时支持以下指令：{1}"
+                        ur"查看/删除文件[文件名]{0}e.g.查看[123345234.mp3]{1}"
+                        ur"撤回附件列表(查看都有哪些保存在电脑中的已撤回附件){1}"
+                        ur"清空附件列表(清空已经保存在电脑中的附件){1}"
+                        ur"添加关键词[关键词]{0}e.g.设置关键词[在不在]{1}"
+                        ur"删除关键词[关键词]{0}e.g.删除关键词[在不在]{1}"
+                        ur"清空关键词  清空已经设置的所有关键词{1}"
+                        ur"查看关键词  查看目前设置的关键词{1}"
+                        ur"添加签到口令[公众号:签到口令]{0}e.g.添加签到口令[招商银行信用卡:签到]{1}"
+                        ur"删除签到口令[公众号]{0}e.g.删除签到口令[招商银行信用卡]{1}"
+                        ur"查看签到口令  查看已经存在的公众和和对应的签到口令{1}"
+                        ur"清空签到口令  清空所有签到口令{1}"
+                        ur"截图 截取运行本程序的机器当前界面{1}"
+                        ur"添加自动回复[针对的关键词:回复内容]{0}e.g.添加自动回复[在不在:我现在有事情，待会儿回复你]{1}"
+                        ur"删除自动回复[针对的关键词]{0}e.g.删除自动回复[在不在]{1}"
+                        ur"清空自动回复{1}"
+                        ur"关闭自动回复{1}"
+                        ur"打开自动回复{1}"
+                        ur"今天吃什么{1}"
+                        ur"退出程序{1}"
+                        ur"其他指令暂不支持，请期待最新版本。".format("\n", "\n\n"),
                         toUserName="filehelper")
 
     def ShowFile(self, filename):
@@ -218,10 +221,14 @@ class Execution:
     # 返回撤回附件所有文件名
     def ReturnAttachmentList(self):
         if os.listdir(self.REVOCATIONPATH):
-            msg_send = r"{0}{1}{0}{2}助手消息：所有储存的附件如下：{3}".format("=" * 6, "助手消息", "\n\n", "\n")
+            print u"有附件"
+            msg_send = u"助手消息：所有储存的附件如下：\n"
+            print msg_send
             for item in os.listdir(self.REVOCATIONPATH):
-                msg_send += "{} {}".format(item, "\n")
+                msg_send += u"{} {}".format(item, "\n")
+            print msg_send
             itchat.send(msg_send, toUserName="filehelper")
         else:
-            msg = r"{0}{1}{0}{2}助手消息：暂时没有撤回的附件".format("=" * 6, "助手消息", "\n\n")
+            print u"无附件"
+            msg = u"助手消息：暂时没有撤回的附件\n"
             itchat.send(msg, toUserName="filehelper")

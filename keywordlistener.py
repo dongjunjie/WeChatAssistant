@@ -1,4 +1,5 @@
-# -*-encoding:utf-8-*-
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
 import re
 import sqlite3
 from time import localtime, strftime

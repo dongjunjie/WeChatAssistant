@@ -1,4 +1,5 @@
-# -*-encoding:utf-8-*-
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
 
 import os
 import sys
@@ -109,13 +110,17 @@ def execute_func():
     global exec_command
     # 1.文件助手命令
     if msglist[0].get('ToUserName', "") == "filehelper" and msglist[0].get('Type', "") == "Text":
+        print u"正在发起对话：filehelper"
+        print msglist[0]
         exec_command.Execution(msglist[0])
+        print u"exec_command.Execution(msglist[0]) 完成"
 
 
 @Pretreat
 def revocation_func():
     # 2.撤回消息
     global rmsg
+    print u"进入revocation_func"
     rmsg.SaveMsg(msglist[0])
     rmsg.Revocation(msglist[0])
     rmsg.ClearTimeOutMsg()
@@ -151,7 +156,7 @@ def keeponline_func():
     while True:
         # 功能：保持在线
         keeponline.ActiveWX()
-        time.sleep(3600)
+        time.sleep(600)
 
 
 if __name__ == '__main__':
@@ -175,16 +180,16 @@ if __name__ == '__main__':
     execute_thread = Thread(target=execute_func)
     revocation_thread = Thread(target=revocation_func)
     keywordlisten_thread = Thread(target=keywordlisten_func)
-    autoreply_thread = Thread(target=autoreply_func)
-    signin_thread = Thread(target=signin_func)
+    #autoreply_thread = Thread(target=autoreply_func)
+    #signin_thread = Thread(target=signin_func)
     keeponline_thread = Thread(target=keeponline_func)
 
     run_thread.start()
     execute_thread.start()
     revocation_thread.start()
     keywordlisten_thread.start()
-    autoreply_thread.start()
-    signin_thread.start()
+    #autoreply_thread.start()
+    #signin_thread.start()
     keeponline_thread.start()
     clearmsglist_thread.start()
 
@@ -192,7 +197,7 @@ if __name__ == '__main__':
     execute_thread.join()
     revocation_thread.join()
     keywordlisten_thread.join()
-    autoreply_thread.join()
-    signin_thread.join()
+    #autoreply_thread.join()
+    #signin_thread.join()
     keeponline_thread.join()
     clearmsglist_thread.join()

@@ -1,3 +1,5 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
 ########数据库相关#########
 database = "wechat.db"
 reply_table = "REPLY"
